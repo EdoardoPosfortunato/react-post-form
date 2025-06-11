@@ -20,6 +20,7 @@ function App() {
 
   const [formData, setFormData] = useState(initialFormData)
   const [showSuccess, setshowSuccess] = useState(false)
+  const [showAlert, setshowAlert] = useState(false)
 
 
   // funzione cghe gestisce il Submit
@@ -51,8 +52,10 @@ function App() {
         if (resp.data.id) {
           setshowSuccess(true)
           setFormData(initialFormData)
+        } else {
+          setshowAlert(true)
         }
-        console.log(resp.data)
+
       })
 
   }
@@ -137,6 +140,12 @@ function App() {
         <div className="alert alert-success my-5">
           I dati sono stai inviati con SUCCESSO
         </div>}
+
+        {showAlert && 
+        <div className="alert alert-danger my-5">
+          Riprova più tardi ...
+        </div>}
+
       </div>
     </>
   )
