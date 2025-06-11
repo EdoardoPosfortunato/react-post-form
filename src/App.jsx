@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-
 import './App.css'
+import axios from 'axios';
+
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
 
 
   const [formData, setFormData] = useState(initialFormData)
+  const [showSuccess, setshowSuccess] = useState(false)
 
 
   // funzione cghe gestisce il Submit
@@ -33,19 +35,34 @@ function App() {
     // const { name: x, value } = e.target;
     // setFormData({ ...formData, [x]: value }) 
     // // avendo a che fare con una destrutturazione siamo legati al fatto che il name dovrà sempre essere name e value uguale (perchè è il nome che hanno in e.taget) con i : cambiamo i nomi delle variabili destrutturate
-    console.log(formData)
+    // console.log(formData)
 
   }
+
+
 
   const sendData = (e) => {
     e.preventDefault()
     console.log(formData)
+
+    axios
+      .post('https://67c5b4f3351c081993fb1ab6.mockapi.io/api/posts', formData)
+      .then((resp) => {
+        if (resp.data.id) {
+          setshowSuccess(true)
+          setFormData(initialFormData)
+        }
+        console.log(resp.data)
+      })
+
   }
 
 
 
   return (
     <>
+
+
       <div className="container">
         <h1 className='my-3 text-center'>Primo Form di Prova</h1>
         <form onSubmit={sendData}>
@@ -115,6 +132,11 @@ function App() {
           <button type="submit" className="btn btn-primary">Submit</button>
 
         </form>
+
+        {showSuccess && 
+        <div className="alert alert-success my-5">
+          I dati sono stai inviati con SUCCESSO
+        </div>}
       </div>
     </>
   )
